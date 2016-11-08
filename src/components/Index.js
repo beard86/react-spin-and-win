@@ -1,5 +1,6 @@
 import React, {Component}	from 'react';
 import AuthStore from '../stores/AuthStore';
+import SlotMachine from './SlotMachine';
 
 class IndexComponent extends Component {
 
@@ -13,9 +14,9 @@ class IndexComponent extends Component {
 		return(
 			<div>
 				{ !this.state.authenticated ? (
-					<h1>Log in Spin & Win!</h1>
+					<h1>Log in to Spin & Win!</h1>
 				) : (
-					<h1>Click on a contact to view their profile</h1>
+					<SlotMachine />
 				)}
 			</div>
 		);
