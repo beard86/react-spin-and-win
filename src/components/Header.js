@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Nav, Navbar, NavItem, Header, Brand } from 'react-bootstrap';
+import { Nav, Navbar, NavItem } from 'react-bootstrap';
 import AuthActions from '../actions/AuthActions';
 import AuthStore from '../stores/AuthStore';
 
@@ -19,7 +19,7 @@ class HeaderComponent extends Component {
 		// We can call the show method from Auth0Lock,
 		// which is passed down as a prop, to allow
 		// the user to log in
-
+		//console.log(this.props);
 		this.props.lock.show((err,profile,token) => {
 			if (err) {
 				alert(err);

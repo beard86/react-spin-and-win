@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react';
 import Header 				from './Header';
 //import Sidebar 				from './Sidebar';
-import {Grid, Row, Col}  	from 'react-bootstrap';
 
 
 
@@ -15,16 +14,17 @@ class AppComponent extends Component {
 	}
 
 	render() {
+		console.log(this.props, this.props.children)
 		return (
 		  <div>
 		  	<Header lock={this.lock}></Header>
-		  	<Grid>
-		  		<Row>
-		  			<Col xs={12} md={12}>
+		  	<div className="container">
+		  		<div className="row">
+					<div className="medium-12 small-12">
 						{this.props.children}
-		  			</Col>
-		  		</Row>
-		  	</Grid>
+		  			</div>
+		  		</div>
+		  	</div>
 		  </div>
 		);
   }

@@ -3,7 +3,7 @@
 import React from 'react';
 import Slot  from './Slot';
 
-// contains multiple instances of the Slot react class 
+// contains multiple instances of the Slot react class
 // (For this implementation there should be 3)
 class Slots extends React.Component{
 
@@ -24,6 +24,6 @@ class Slots extends React.Component{
 
   }
 
-};
+}
 
 export default Slots;

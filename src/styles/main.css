@@ -1,3 +1,12 @@
+.play-button {
+  width: 100%;
+  line-height: 7rem;
+  background: lightblue;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-top: 1rem; }
+
 /* Typography */
 /* Colors */
 body {
@@ -142,10 +151,26 @@ body {
   100% {
     -webkit-transform: rotate(-4deg); } }
 
+#a0-lock.a0-theme-default .a0-overlay.a0-active .a0-panel {
+  -webkit-box-shadow: none;
+  box-shadow: none; }
+
+#a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image img {
+  display: none; }
+
+#a0-lock.a0-theme-default .a0-overlay.a0-active {
+  background: #fff; }
+
 body {
   margin: 0; }
+
+img {
+  width: 100%; }
 
 #app {
   position: relative; }
   #app .navbar-nav {
     float: right; }
+
+.row {
+  max-width: none; }

@@ -10,18 +10,19 @@ class StatusMessage extends React.Component{
   }
 
   render() {
+    //console.log(this.props);
     return (
-      <div className={"row" + this.props.winnerClass}>
-        <div className="medium-12">
+      <div className={'row' + this.props.winnerClass}>
+        <div className='medium-12'>
           {this.props.winner}
         </div>
-        <div className="medium-12">
+        <div className='medium-12'>
           {this.props.winnerImage}
         </div>
       </div>
     )
   }
 
-};
+}
 
 export default StatusMessage;

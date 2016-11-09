@@ -3,7 +3,10 @@
 import React            from 'react';
 import Slots            from './Slots';
 import SpinButton       from './SpinButton';
+import PlayButton       from './PlayButton';
 import StatusMessage    from './StatusMessage';
+import AuthActions from '../actions/AuthActions';
+import AuthStore from '../stores/AuthStore';
 
 const propTypes = {
   currentUser: React.PropTypes.object
@@ -13,15 +16,22 @@ const propTypes = {
 // The SlotMachine React class handles the entirety of this very small app.
 class SlotMachine extends React.Component {
 
-  // Generates random initial state for slots.
-
   constructor(props) {
     super(props);
     this.state = {
-      slotPositions: this.getRandomState()
+      slotPositions: this.getRandomState(),
+      authenticated: AuthStore.isAuthenticated()
+
     };
     //console.log(this.state.slotPositions);
   }
+
+  // Generates random initial state for slots.
+  componentWillMount() {
+    this.lock = new Auth0Lock('3RhBq3qZaZARDQae7PtbH59wyP9xe7Ld', 'wolftiger.eu.auth0.com');
+  }
+
+
 
   //getInitialState() {
   //  return {slotPositions: this.getRandomState()};
@@ -34,9 +44,17 @@ class SlotMachine extends React.Component {
   // Generates random landing values for slots using genSlotValue defined at the end of the file
   getRandomState() {
     //console.log(genSlotValue(), genSlotValue(), genSlotValue());
-    return [genSlotValue(), genSlotValue(), genSlotValue()];
+    return [
+      genSlotValue(),
+      genSlotValue(),
+      genSlotValue()
+    ];
   }
 
+  componentWillReceiveProps(newProps) {
+    //console.log('componentWillReceiveProps');
+    //ReactDOM.render(newProps);
+  }
 
   handleButtonClick(event) {
     //console.log(event, this);
@@ -62,7 +80,7 @@ class SlotMachine extends React.Component {
           hasChanged = true;
           spinButton.setAttribute('disabled', 'disabled');
           //spinButton.setTextContent('Spinning!');
-          spinButton.classList.add("spinning");
+          spinButton.classList.add('spinning');
         }
         //Re-enable spin button
         if (count >= 9){
@@ -78,10 +96,10 @@ class SlotMachine extends React.Component {
 
       // Stops reel spinning if we've hit the final state's value
       if(!hasChanged) {
-        return; 
+        return;
       }
       currentState = this.state.slotPositions;
-      setTimeout(makeSpin, 100); 
+      setTimeout(makeSpin, 100);
       count++;
       //console.log(count);
     }.bind(this);
@@ -101,29 +119,53 @@ class SlotMachine extends React.Component {
       let isWinning = (sp[0] == sp[1]) && (sp[1] == sp[2]);
 
       // Make sure winner, winnerClass, and winnerImage strings are undefined until there's an actual win
-      let winner = ""; 
-      let winnerClass = "";
-      let winnerImage = "";
+      let winner = '';
+      let winnerClass = '';
+      let winnerImage = '';
 
       // Make sure we're only displaying the win state on final slot positions
       if(isWinning && this.state.isFinal){
-        winner = [<h2>You've won John Lewis vouchers!</h2>, <h2>You've won M&amp;S vouchers!</h2>, <h2>You've won Size vouchers!!</h2>][sp[0]];
-        winnerClass = ['coffee', 'tea', 'espresso'][sp[0]];
-        winnerImage = [<div id='coffee-img' className='tossing win-img'></div>, <div id='tea-img' className='tossing win-img'></div>, <div id='espresso-img' className='tossing win-img'></div>][sp[0]];
+        winner = [
+          <h2>You've won John Lewis vouchers!</h2>,
+          <h2>You've won M&amp;S vouchers!</h2>,
+          <h2>You've won Size vouchers!!</h2>
+        ][sp[0]];
+        winnerClass = [
+          'coffee',
+          'tea',
+          'espresso'
+        ][sp[0]];
+        winnerImage = [
+          <div id='coffee-img' className='tossing win-img'></div>,
+          <div id='tea-img' className='tossing win-img'></div>,
+          <div id='espresso-img' className='tossing win-img'></div>
+        ][sp[0]];
       }
 
     // Render Machine
     return (
       <main className='react-slots'>
-        <section className="machine">
-          <Slots slotPositions={this.state.slotPositions} />
-          <div className="spin row">
-            <SpinButton onButtonClick={this.handleButtonClick.bind(this)} />
-          </div>
-        </section>
-        <section className="win row">
-          <StatusMessage winner={winner} winnerClass={winnerClass} winnerImage={winnerImage} />
-        </section>
+
+
+        { !this.state.authenticated ? (
+        <div className="medium-12 small-12">
+          <img src="http://placehold.it/960x360"/>
+          <PlayButton lock={this.lock} />
+
+        </div>
+        ) : (
+        <div className="medium-12 small-12">
+          <section className="machine">
+            <Slots slotPositions={this.state.slotPositions} />
+            <div className="spin row">
+              <SpinButton onButtonClick={this.handleButtonClick.bind(this)} />
+            </div>
+          </section>
+          <section className="win row">
+            <StatusMessage winner={winner} winnerClass={winnerClass} winnerImage={winnerImage} />
+          </section>
+        </div>
+        )}
       </main>
     );
   }
